@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import FastICA
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import MinMaxScaler
 from tpot.export_utils import set_param_recursive
 
 # NOTE: Make sure that the outcome column is labeled 'target' in the data file
@@ -14,8 +15,9 @@ training_features, testing_features, training_target, testing_target = \
 
 # Average CV score on the training set was: 1.0
 exported_pipeline = make_pipeline(
-    FastICA(tol=0.30000000000000004),
-    ExtraTreesClassifier(bootstrap=True, criterion="entropy", max_features=0.9000000000000001, min_samples_leaf=2, min_samples_split=5, n_estimators=100)
+    MinMaxScaler(),
+    FastICA(tol=0.35000000000000003),
+    GradientBoostingClassifier(learning_rate=0.01, max_depth=4, max_features=0.9000000000000001, min_samples_leaf=20, min_samples_split=6, n_estimators=100, subsample=0.4)
 )
 # Fix random state for all the steps in exported pipeline
 set_param_recursive(exported_pipeline.steps, 'random_state', 42)
