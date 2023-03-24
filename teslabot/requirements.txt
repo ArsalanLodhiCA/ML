@@ -4,3 +4,4 @@ mangum==0.15.0
 fastapi==0.79.0
 pydantic==1.9.1
 uvicorn==0.18.2
+torch<2.0.0
